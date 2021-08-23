@@ -9,6 +9,9 @@ app.set('view engine', 'ejs')
 // listen for requests
 app.listen(3000)
 
+// middleware setup to serve static files
+app.use(express.static('public'))
+
 app.get('/', (req, res) => {
 	// res.sendFile('./views/index.html', { root: __dirname })
 	const blogs = [
