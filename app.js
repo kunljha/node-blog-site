@@ -1,13 +1,22 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 // initialise express app
 const app = express()
 
+// connet to mongoDB
+const dbURI =
+	'mongodb+srv://kunal-jha:developerKunal@cluster0.rlzx9.mongodb.net/node-blog?retryWrites=true&w=majority'
+
+mongoose
+	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.then((result) => app.listen(3000))
+	.catch((err) => console.log(err))
+
+// view engine setup
 app.set('view engine', 'ejs')
 // app.set('views', 'myviews') to specify to express to find view engine files in 'myviews' folder
-
-// listen for requests
-app.listen(3000)
 
 // middleware setup to serve static files
 app.use(express.static('public'))
@@ -32,6 +41,23 @@ app.get('/', (req, res) => {
 		},
 	]
 	res.render('index', { title: 'Home', blogs: blogs })
+})
+
+app.get('/add-blog', (req, res) => {
+	const blog = new Blog({
+		title: 'Blog-1',
+		snippet: 'Blog-1 snippet',
+		body: 'Blog-1 body',
+	})
+
+	blog
+		.send()
+		.then((result) => {
+			res.send(blog)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 })
 
 app.get('/about', (req, res) => {
