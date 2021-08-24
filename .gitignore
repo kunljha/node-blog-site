@@ -1,2 +1,5 @@
 # node modules
 node_modules/*
+
+# config file
+config.js

@@ -1,13 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Blog = require('./models/blog')
+const { username, password } = require('./config')
 
 // initialise express app
 const app = express()
 
 // connet to mongoDB
-const dbURI =
-	'mongodb+srv://kunal-jha:developerKunal@cluster0.rlzx9.mongodb.net/node-blog?retryWrites=true&w=majority'
+const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/node-blog?retryWrites=true&w=majority`
 
 mongoose
 	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -43,6 +43,15 @@ app.get('/', (req, res) => {
 	res.render('index', { title: 'Home', blogs: blogs })
 })
 
+app.get('/about', (req, res) => {
+	// res.sendFile('./views/about.html', { root: __dirname })
+	res.render('about', { title: 'About' })
+})
+
+app.get('/blogs/create', (req, res) => {
+	res.render('create', { title: 'Create a Blog' })
+})
+
 app.get('/add-blog', (req, res) => {
 	const blog = new Blog({
 		title: 'Blog-1',
@@ -53,20 +62,11 @@ app.get('/add-blog', (req, res) => {
 	blog
 		.send()
 		.then((result) => {
-			res.send(blog)
+			res.send(result)
 		})
 		.catch((err) => {
 			console.log(err)
 		})
-})
-
-app.get('/about', (req, res) => {
-	// res.sendFile('./views/about.html', { root: __dirname })
-	res.render('about', { title: 'About' })
-})
-
-app.get('/blogs/create', (req, res) => {
-	res.render('create', { title: 'Create a Blog' })
 })
 
 // setup redirect
