@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog') // requiring Blog model
+const blogRoutes = require('./routes/blogRoutes')
 const { username, password, database } = require('./config')
 
 // initialise express app
@@ -11,7 +11,9 @@ const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/
 
 mongoose
 	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then((result) => app.listen(3000))
+	.then((result) => {
+		app.listen(3000)
+	})
 	.catch((err) => {
 		console.log(err)
 	})
@@ -33,56 +35,8 @@ app.get('/about', (req, res) => {
 	res.render('about', { title: 'About' })
 })
 
-app.get('/blogs', (req, res) => {
-	Blog.find()
-		.sort({ createdAt: -1 }) // sorting by latest blog
-		.then((result) => {
-			res.render('index', { title: 'All Blogs', blogs: result })
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-})
-
-app.get('/blogs/create', (req, res) => {
-	res.render('create', { title: 'Create a Blog' })
-})
-
-app.post('/blogs', (req, res) => {
-	const blog = new Blog(req.body)
-
-	blog
-		.save()
-		.then((result) => {
-			res.redirect('/blogs')
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-})
-
-app.get('/blogs/:id', (req, res) => {
-	const id = req.params.id
-	Blog.findById(id)
-		.then((result) => {
-			res.render('details', { title: 'Read Blog', blog: result })
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-})
-
-app.delete('/blogs/:id', (req, res) => {
-	const id = req.params.id
-
-	Blog.findByIdAndDelete(id)
-		.then((result) => {
-			res.json({ redirect: '/blogs' })
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-})
+// blog routes
+app.use('/blogs', blogRoutes)
 
 // 404- page setup
 app.use((req, res) => {
