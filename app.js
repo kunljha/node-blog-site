@@ -1,16 +1,26 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 const blogRoutes = require('./routes/blogRoutes')
-const { username, password, database } = require('./config')
+const authRoutes = require('./routes/authRoutes')
+const { requireAuth, checkUser } = require('./middleware/authMiddleware')
 
 // initialise express app
 const app = express()
 
-// connect to mongoDB
-const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/${database}?retryWrites=true&w=majority`
+// connect to database
+const username = process.env.USER_NAME
+const password = process.env.PASS_WORD
+const database = process.env.DATA_BASE
+const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/${database}`
 
 mongoose
-	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(dbURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	})
 	.then((result) => {
 		app.listen(3000)
 	})
@@ -20,23 +30,31 @@ mongoose
 
 // view engine setup
 app.set('view engine', 'ejs')
-// app.set('views', 'myviews') to specify to express to find view engine files in 'myviews' folder
 
-app.use(express.static('public')) // middleware setup to serve static files
-app.use(express.urlencoded({ extended: true })) // middleware to accept form data
+// middleware
+app.use(express.static('public')) // to serve static files
+app.use(express.urlencoded({ extended: true })) // to accept form data
+app.use(express.json()) // to parse json data of request into javascript data
+app.use(cookieParser()) // handling cookies
 
+app.get('*', checkUser)
+
+// routes
 app.get('/', (req, res) => {
 	// res.sendFile('./views/index.html', { root: __dirname })
 	res.redirect('/blogs')
 })
 
-app.get('/about', (req, res) => {
+app.get('/about', requireAuth, (req, res) => {
 	// res.sendFile('./views/about.html', { root: __dirname })
 	res.render('about', { title: 'About' })
 })
 
 // blog routes
-app.use('/blogs', blogRoutes)
+app.use('/blogs', requireAuth, blogRoutes)
+
+// auth routes
+app.use(authRoutes)
 
 // 404- page setup
 app.use((req, res) => {

@@ -1,4 +1,4 @@
-const Blog = require('../models/blog')
+const Blog = require('../models/Blog')
 
 const blog_index = (req, res) => {
 	Blog.find()
@@ -27,17 +27,24 @@ const blog_create_get = (req, res) => {
 	res.render('create', { title: 'Create a Blog' })
 }
 
-const blog_create_post = (req, res) => {
-	const blog = new Blog(req.body)
+const blog_create_post = async (req, res) => {
+	// const blog = new Blog(req.body)
 
-	blog
-		.save()
-		.then((result) => {
-			res.redirect('/blogs')
-		})
-		.catch((err) => {
-			console.log(err)
-		})
+	// blog
+	// 	.save()
+	// 	.then((result) => {
+	// 		res.redirect('/blogs')
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err)
+	// 	})
+	const { title, snippet, body } = req.body
+	try {
+		const blog = await Blog.create({ title, snippet, body })
+		res.redirect('/blogs')
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 const blog_delete = (req, res) => {
