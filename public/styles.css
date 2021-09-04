@@ -1,61 +1,80 @@
 /* google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--main-bg-color: #f4f1de;
+	--link-color: #e07a57;
+	--blog-bg-color: #f2cc8f;
+	--accent-color: #81b29a;
+}
+
 body {
 	margin: 20px 40px;
 	font-size: 1.2rem;
-	letter-spacing: 1px;
-	background: #fafafa;
-}
-h1,
-h2,
-h3,
-h4,
-ul,
-li,
-a,
-p,
-input,
-label,
-button,
-div,
-footer {
-	margin: 0;
-	padding: 0;
 	font-family: 'Quicksand', sans-serif;
-	color: #444;
+	letter-spacing: 1px;
+	background: var(--main-bg-color);
 }
+
 ul {
 	list-style-type: none;
 }
 a {
 	text-decoration: none;
+	color: var(--link-color);
+	cursor: pointer;
 }
+
+/* nav styles */
 nav {
 	display: flex;
 	justify-content: space-between;
-	align-items: flex-end;
-	margin-bottom: 120px;
+	align-items: center;
+	margin-bottom: 110px;
 }
 nav ul {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 }
-nav li {
-	margin-left: 20px;
-}
+
+/* nav > div {
+	background-color: rgb(238, 194, 156);
+	border-radius: 20px;
+	padding: 10px 17px;
+} */
 nav li a {
 	text-transform: uppercase;
 	font-weight: 700;
 	font-size: 0.8em;
 	display: block;
-	padding: 10px 16px;
-	letter-spacing: 2px;
+	padding: 8px 12px;
+	letter-spacing: 0.8px;
+	border-radius: 5px;
 }
+
 .btn {
-	border-radius: 36px;
+	border-radius: 35px;
 	background: #fee996;
 }
+
+.user-name {
+	margin-right: 30px;
+	font-weight: 500;
+	/* color: #af4216c2; */
+}
+
+.user-name > span {
+	color: var(--link-color);
+}
+
+/* form styles */
 form h2 {
 	font-size: 2.4em;
 	font-weight: 900;
@@ -67,12 +86,14 @@ form {
 	padding: 30px;
 	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
-	background: white;
+	background: #eecf9d;
 }
-input {
+input,
+textarea {
 	padding: 10px 12px;
+	background-color: var(--main-bg-color);
 	border-radius: 4px;
-	border: 1px solid #ddd;
+	border: 1px solid var(--link-color);
 	font-size: 1em;
 	width: 100%;
 }
@@ -82,15 +103,15 @@ label {
 }
 button {
 	margin-top: 30px;
-	border-radius: 36px;
-	background: #fee996;
+	border-radius: 35px;
+	background: var(--link-color);
 	border: 0;
 	text-transform: uppercase;
 	font-weight: 700;
 	font-size: 0.8em;
 	display: block;
 	padding: 10px 16px;
-	letter-spacing: 2px;
+	letter-spacing: 1px;
 }
 .error {
 	color: #ff0099;
@@ -98,52 +119,84 @@ button {
 	font-size: 0.8em;
 	font-weight: bold;
 }
-header {
+
+/* content class styles */
+.content {
+	width: 100%;
+	height: 70vh;
+}
+
+.content h2 {
+	margin-bottom: 25px;
+	display: inline-block;
+	border-radius: 5px;
+	background-color: rgb(238, 194, 156);
+	padding: 10px 17px;
+}
+
+/* blogs styles */
+.blogs a {
+	display: block;
+	background-color: var(--blog-bg-color);
+	color: black;
+	border-left: 18px solid var(--accent-color);
+	margin-bottom: 17px;
+	padding: 12px 20px;
+}
+
+.blogs a:hover {
+	border-left: 25px solid #6eb191d3;
+}
+
+/* details page styles */
+.details > div {
+	background-color: var(--blog-bg-color);
+	color: black;
+	border-left: 15px solid var(--accent-color);
+	padding: 15px 22px;
+}
+
+.details > div > p {
+	display: inline-block;
+}
+.details > div > a {
+	float: right;
+}
+
+/* about page styles */
+
+.about {
+	background-color: var(--blog-bg-color);
+	color: black;
+	border-left: 15px solid var(--accent-color);
+	padding: 15px 22px;
+}
+
+.about > h2 {
+	text-decoration: underline;
+	background-color: var(--blog-bg-color);
+}
+
+/*  create-blog page styles */
+.create-blog > form {
+	width: 80%;
+}
+
+/* 404-page style */
+.not-found {
+	background-color: var(--blog-bg-color);
+	color: black;
+	border-left: 15px solid var(--accent-color);
+	padding: 15px 22px;
+	height: 20vh;
+	width: 100%;
+	text-align: center;
+	font-weight: 800;
 	display: flex;
+	justify-content: center;
 	align-items: center;
 }
-header img {
-	width: 250px;
-	margin-right: 40px;
-}
-header h2 {
-	font-size: 3em;
-	margin-bottom: 10px;
-}
-header h3 {
-	font-size: 1.6em;
-	margin-bottom: 10px;
-	margin-left: 2px;
-	color: #999;
-}
-header .btn {
-	margin-top: 20px;
-	padding: 12px 18px;
-	text-transform: uppercase;
-	font-weight: bold;
-	display: inline-block;
-	font-size: 0.8em;
-}
-.recipes {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	column-gap: 30px;
-	row-gap: 80px;
-	margin: 80px AUTO;
-	max-width: 1200px;
-}
-.recipe {
-	display: inline-block;
-	border-radius: 20px;
-	background: white;
-	position: relative;
-	text-align: center;
-	padding: 0 20px 30px 20px;
-}
-.recipe img {
-	width: 100px;
-	margin: -30px auto 20px;
-}
+
 footer {
 	text-align: center;
 	margin-top: 120px;

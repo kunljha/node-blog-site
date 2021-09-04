@@ -6,12 +6,12 @@
 
 		<div class="details content">
 			<h2><%= blog.title %></h2>
-			<div class="content">
+			<div>
 				<p><%= blog.body %></p>
+				<a class="delete" data-doc="<%= blog._id %>">
+					<img src="/trashcan.svg" alt="trashcan-icon"
+				/></a>
 			</div>
-			<a class="delete" data-doc="<%= blog._id %>">
-				<img src="/trashcan.svg" alt="trashcan-icon"
-			/></a>
 		</div>
 
 		<%- include("./partials/footer.ejs") %>
