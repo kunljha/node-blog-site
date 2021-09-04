@@ -15,6 +15,7 @@ const password = process.env.PASS_WORD
 const database = process.env.DATA_BASE
 const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/${database}`
 
+const port = process.env.PORT || 3000
 mongoose
 	.connect(dbURI, {
 		useNewUrlParser: true,
@@ -22,7 +23,7 @@ mongoose
 		useCreateIndex: true,
 	})
 	.then((result) => {
-		app.listen(3000)
+		app.listen(port)
 	})
 	.catch((err) => {
 		console.log(err)
