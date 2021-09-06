@@ -38,6 +38,15 @@ nav {
 	align-items: center;
 	margin-bottom: 110px;
 }
+
+nav div > a {
+	display: inline-block;
+	border-radius: 5px;
+}
+
+nav div > a:hover {
+	border-bottom: 5px solid var(--accent-color);
+}
 nav ul {
 	display: flex;
 	justify-content: space-between;
@@ -59,9 +68,14 @@ nav li a {
 	border-radius: 5px;
 }
 
+nav li a:hover {
+	border-bottom: 5px solid var(--accent-color);
+}
+
 .btn {
 	border-radius: 35px;
 	background: #fee996;
+	cursor: pointer;
 }
 
 .user-name {
@@ -81,11 +95,13 @@ form h2 {
 	margin-bottom: 40px;
 }
 form {
-	width: 360px;
+	width: 30vw;
+	height: 60vh;
 	margin: 0 auto;
 	padding: 30px;
 	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
+	border: 2px solid var(--accent-color);
 	background: #eecf9d;
 }
 input,
@@ -96,6 +112,7 @@ textarea {
 	border: 1px solid var(--link-color);
 	font-size: 1em;
 	width: 100%;
+	margin-bottom: 20px;
 }
 label {
 	display: block;
@@ -113,6 +130,10 @@ button {
 	padding: 10px 16px;
 	letter-spacing: 1px;
 }
+
+button:hover {
+	cursor: pointer;
+}
 .error {
 	color: #ff0099;
 	margin: 10px 2px;
@@ -129,8 +150,9 @@ button {
 .content h2 {
 	margin-bottom: 25px;
 	display: inline-block;
-	border-radius: 5px;
-	background-color: rgb(238, 194, 156);
+	border-radius: 10px;
+	background-color: var(--blog-bg-color);
+	border-bottom: 5px solid var(--accent-color);
 	padding: 10px 17px;
 }
 
@@ -163,6 +185,11 @@ button {
 	float: right;
 }
 
+.details > div > a:hover {
+	box-shadow: 4px 4px 4px var(--link-color);
+	opacity: 0.8;
+	border-radius: 10px;
+}
 /* about page styles */
 
 .about {
@@ -170,11 +197,6 @@ button {
 	color: black;
 	border-left: 15px solid var(--accent-color);
 	padding: 15px 22px;
-}
-
-.about > h2 {
-	text-decoration: underline;
-	background-color: var(--blog-bg-color);
 }
 
 /*  create-blog page styles */

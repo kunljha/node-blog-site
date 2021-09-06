@@ -23,6 +23,11 @@ const handleErrors = (err) => {
 		errors.password = 'Password is wrong'
 	}
 
+	// user email not verified
+	if (err.message === 'Email was not verified') {
+		errors.email = 'Enter a valid email address'
+	}
+
 	// duplicate error code
 	if (err.code === 11000) {
 		errors.email = 'User already exists with this email!'
@@ -42,7 +47,7 @@ const handleErrors = (err) => {
 // generating jwt token
 const secret = process.env.SECRET
 const createToken = (id) => {
-	return jwt.sign({ id }, `${secret}`, { expiresIn: 3 * 24 * 60 * 60 })
+	return jwt.sign({ id }, secret, { expiresIn: 3 * 24 * 60 * 60 })
 }
 
 const signup_get = (req, res) => {
@@ -55,10 +60,17 @@ const signup_post = async (req, res) => {
 	try {
 		const user = await User.create({ email, password })
 		const token = createToken(user._id)
-		res.cookie('jwt', token, {
-			httpOnly: true,
-			maxAge: 3 * 24 * 60 * 60 * 1000,
-		})
+		const info = await User.verifyMail(token, email)
+		if (info) {
+			res.cookie('jwt', token, {
+				httpOnly: true,
+				maxAge: 3 * 24 * 60 * 60 * 1000,
+			})
+		} else {
+			User.deleteOne({ email })
+			throw new Error('Email was not verified')
+		}
+
 		res.status(201).json({ user: user._id })
 	} catch (err) {
 		// res.status(400).send('user not able to sign-up')
@@ -93,4 +105,25 @@ const logout_get = (req, res) => {
 	res.redirect('/')
 }
 
-module.exports = { signup_get, signup_post, login_get, login_post, logout_get }
+const confirmation_get = async (req, res) => {
+	try {
+		const {
+			user: { id },
+		} = jwt.verify(req.params.token, secret)
+
+		const user = await User.updateOne({ verify: true }, { where: { id } })
+
+		res.redirect('/login')
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+module.exports = {
+	signup_get,
+	signup_post,
+	login_get,
+	login_post,
+	logout_get,
+	confirmation_get,
+}
