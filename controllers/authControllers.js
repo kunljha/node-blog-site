@@ -24,8 +24,8 @@ const handleErrors = (err) => {
 	}
 
 	// user email not verified
-	if (err.message === 'Email was not verified') {
-		errors.email = 'Enter a valid email address'
+	if (err.message === 'Email is not verified') {
+		errors.email = 'Please verify you email'
 	}
 
 	// duplicate error code
@@ -47,7 +47,7 @@ const handleErrors = (err) => {
 // generating jwt token
 const secret = process.env.SECRET
 const createToken = (id) => {
-	return jwt.sign({ id }, secret, { expiresIn: 3 * 24 * 60 * 60 })
+	return jwt.sign({ id }, secret, { expiresIn: 1 * 24 * 60 * 60 })
 }
 
 const signup_get = (req, res) => {
@@ -58,22 +58,17 @@ const signup_post = async (req, res) => {
 	const { email, password } = req.body
 
 	try {
-		const user = await User.create({ email, password })
+		const user = await User.create({ email, password, verify: false })
 		const token = createToken(user._id)
-		const info = await User.verifyMail(token, email)
-		if (info) {
-			res.cookie('jwt', token, {
-				httpOnly: true,
-				maxAge: 3 * 24 * 60 * 60 * 1000,
-			})
-		} else {
-			User.deleteOne({ email })
-			throw new Error('Email was not verified')
-		}
+		const info = await User.verifyEmail(token, email)
 
-		res.status(201).json({ user: user._id })
+		if (info) {
+			res.status(201).json({ userId: user._id })
+		} else {
+			throw new Error('Email not sent')
+		}
 	} catch (err) {
-		// res.status(400).send('user not able to sign-up')
+		console.log(err.message)
 		const errors = handleErrors(err)
 		res.status(400).json({ errors })
 	}
@@ -89,12 +84,17 @@ const login_post = async (req, res) => {
 	try {
 		const user = await User.login(email, password)
 		const token = createToken(user._id)
-		res.cookie('jwt', token, {
-			httpOnly: true,
-			maxAge: 3 * 24 * 60 * 60 * 1000,
-		})
-		res.status(200).json({ user: user._id })
+		if (user.verify) {
+			res.cookie('jwt', token, {
+				httpOnly: true,
+				maxAge: 1 * 24 * 60 * 60 * 1000,
+			})
+			res.status(200).json({ userId: user._id })
+		} else {
+			throw new Error('Email is not verified')
+		}
 	} catch (err) {
+		console.log(err.message)
 		const errors = handleErrors(err)
 		res.status(400).json({ errors })
 	}
@@ -105,18 +105,8 @@ const logout_get = (req, res) => {
 	res.redirect('/')
 }
 
-const confirmation_get = async (req, res) => {
-	try {
-		const {
-			user: { id },
-		} = jwt.verify(req.params.token, secret)
-
-		const user = await User.updateOne({ verify: true }, { where: { id } })
-
-		res.redirect('/login')
-	} catch (err) {
-		console.log(err)
-	}
+const confirmation_get = (req, res) => {
+	res.render('confirmation', { title: 'Verification' })
 }
 
 module.exports = {

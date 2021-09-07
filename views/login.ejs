@@ -23,7 +23,7 @@
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault()
 
-		// clearing input fields
+		// clearing error fields
 		emailError.textContent = ''
 		passwordError.textContent = ''
 
@@ -45,7 +45,7 @@
 				passwordError.textContent = data.errors.password
 			}
 
-			if (data.user) {
+			if (data.userId) {
 				location.assign('/')
 			}
 		} catch (err) {

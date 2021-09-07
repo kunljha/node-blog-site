@@ -28,6 +28,9 @@
 		emailError.textContent = ''
 		passwordError.textContent = ''
 
+		// showing message for email
+		const message = document.createElement('div')
+
 		// reading text input values from form
 		const email = e.target.elements.email.value
 		const password = e.target.elements.password.value
@@ -44,11 +47,16 @@
 			if (data.errors) {
 				emailError.textContent = data.errors.email
 				passwordError.textContent = data.errors.password
+				message.textContent = ''
 			}
 
-			if (data.user) {
-				location.assign('/')
+			if (data.userId) {
+				// console.log(data.userId)
+				message.textContent = 'An email is sent to you'
 			}
+
+			message.classList.add('error')
+			form.appendChild(message)
 		} catch (err) {
 			console.log(err)
 		}

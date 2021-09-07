@@ -1,4 +1,5 @@
 const express = require('express')
+const { confirmUser } = require('../middleware/authMiddleware')
 const {
 	signup_get,
 	signup_post,
@@ -20,6 +21,6 @@ router.post('/login', login_post)
 
 router.get('/logout', logout_get)
 
-router.get('/confirmation/:token', confirmation_get)
+router.get('/confirmation/:token', confirmUser, confirmation_get)
 
 module.exports = router

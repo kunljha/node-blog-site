@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
 	},
 	verify: {
 		type: Boolean,
-		required: [false, 'User verified successfully'],
+		required: false,
 	},
 })
 
@@ -46,10 +46,10 @@ userSchema.statics.login = async function (email, password) {
 }
 
 // confirmation of email for signing-up new users
-userSchema.statics.verifyMail = async (token, email) => {
+userSchema.statics.verifyEmail = async (token, email) => {
 	const url = `http://localhost:3000/confirmation/${token}`
 	const transporter = nodemailer.createTransport({
-		host: 'Gmail',
+		service: 'Gmail',
 		auth: {
 			user: process.env.MY_EMAIL,
 			pass: process.env.MY_PASSWORD,
@@ -59,16 +59,17 @@ userSchema.statics.verifyMail = async (token, email) => {
 		const info = await transporter.sendMail({
 			from: process.env.MY_EMAIL,
 			to: `${email}`,
-			subject: 'Verify you email for signing up at NodeBlogs',
+			subject: 'Verify your email for signing up at NodeBlogs',
 			html: `
 		<h2>Confirmation Email from NodeBlogs</h2>
 		<p>You are receiving this email because your email address is used to sign-up at <strong>NodeBlogs</strong></p>
-		<p>Please confirm verification by clicking on the link: <a href="${url}">${url}</a></p>
-		<p>If you didn't tried to signup then simply ignore this mail!</p>
+		<p>Please confirm verification by clicking on the link: <a href="${url}">Verify</a></p>
+		<p>If you didn't tried to signup then simply ignore this mail.</p>
 		`,
 		})
-		return info
+		return info.messageId
 	} catch (err) {
+		console.log('cannot send email')
 		console.log(err)
 	}
 }
