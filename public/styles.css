@@ -53,11 +53,6 @@ nav ul {
 	align-items: center;
 }
 
-/* nav > div {
-	background-color: rgb(238, 194, 156);
-	border-radius: 20px;
-	padding: 10px 17px;
-} */
 nav li a {
 	text-transform: uppercase;
 	font-weight: 700;
@@ -81,7 +76,6 @@ nav li a:hover {
 .user-name {
 	margin-right: 30px;
 	font-weight: 500;
-	/* color: #af4216c2; */
 }
 
 .user-name > span {
@@ -96,7 +90,7 @@ form h2 {
 }
 form {
 	width: 30vw;
-	height: 60vh;
+	height: fit-content;
 	margin: 0 auto;
 	padding: 30px;
 	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
@@ -112,14 +106,13 @@ textarea {
 	border: 1px solid var(--link-color);
 	font-size: 1em;
 	width: 100%;
-	margin-bottom: 20px;
 }
 label {
 	display: block;
 	margin: 20px 0 10px;
 }
 button {
-	margin-top: 30px;
+	margin-top: 20px;
 	border-radius: 35px;
 	background: var(--link-color);
 	border: 0;
@@ -202,6 +195,7 @@ button:hover {
 /*  create-blog page styles */
 .create-blog > form {
 	width: 80%;
+	height: fit-content;
 }
 
 /* 404-page style */

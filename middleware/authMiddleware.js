@@ -59,9 +59,13 @@ const confirmUser = async (req, res, next) => {
 				res.redirect('/signup')
 			} else {
 				console.log(decodedToken)
-				await User.findByIdAndUpdate(decodedToken.id, {
-					verify: true,
-				})
+				await User.findByIdAndUpdate(
+					decodedToken.id,
+					{
+						verify: true,
+					},
+					{ useFindAndModify: false }
+				)
 				next()
 			}
 		})

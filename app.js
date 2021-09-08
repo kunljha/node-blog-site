@@ -10,12 +10,9 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware')
 const app = express()
 
 // connect to database
-const username = process.env.USER_NAME
-const password = process.env.PASS_WORD
-const database = process.env.DATA_BASE
-const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/${database}`
+const dbURI = process.env.MONGODB_URI
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 mongoose
 	.connect(dbURI, {
 		useNewUrlParser: true,

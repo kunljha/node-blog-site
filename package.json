@@ -19,5 +19,8 @@
 		"mongoose": "^5.13.8",
 		"nodemailer": "^6.6.3",
 		"validator": "^13.6.0"
+	},
+	"engines": {
+		"node": "14.17.6"
 	}
 }

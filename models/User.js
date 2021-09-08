@@ -47,7 +47,7 @@ userSchema.statics.login = async function (email, password) {
 
 // confirmation of email for signing-up new users
 userSchema.statics.verifyEmail = async (token, email) => {
-	const url = `http://localhost:3000/confirmation/${token}`
+	const url = `http://localhost:5000/confirmation/${token}`
 	const transporter = nodemailer.createTransport({
 		service: 'Gmail',
 		auth: {
