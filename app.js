@@ -20,6 +20,7 @@ mongoose
 		useCreateIndex: true,
 	})
 	.then((result) => {
+		console.log('Connected to DB')
 		app.listen(port)
 	})
 	.catch((err) => {
