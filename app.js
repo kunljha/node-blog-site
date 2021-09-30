@@ -50,7 +50,7 @@ app.get('/about', requireAuth, (req, res) => {
 })
 
 // blog routes
-app.use('/blogs', requireAuth, blogRoutes)
+app.use('/blogs', blogRoutes)
 
 // auth routes
 app.use(authRoutes)

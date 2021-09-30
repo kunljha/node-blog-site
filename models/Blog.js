@@ -14,6 +14,14 @@ const blogSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		userId: {
+			type: Object,
+			required: true,
+		},
+		userName: {
+			type: String,
+			required: true,
+		},
 	},
 	{ timestamps: true }
 )

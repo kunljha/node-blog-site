@@ -78,4 +78,23 @@ const confirmUser = async (req, res, next) => {
 	}
 }
 
-module.exports = { requireAuth, checkUser, confirmUser }
+// get current user details
+const getCurrentUser = async (req, res) => {
+	const token = req.cookies.jwt
+	if (token) {
+		jwt.verify(token, secret, async (err, decodedToken) => {
+			if (err) {
+				console.log(err.message)
+				return null
+			} else {
+				const user = await User.findById(decodedToken.id)
+				return user
+			}
+		})
+	} else {
+		console.log('No token found')
+		return null
+	}
+}
+
+module.exports = { requireAuth, checkUser, confirmUser, getCurrentUser }

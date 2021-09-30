@@ -6,6 +6,10 @@ const nodemailer = require('nodemailer')
 
 // defining schema for user
 const userSchema = new mongoose.Schema({
+	username: {
+		type: String,
+		required: [true, 'Please enter a username'],
+	},
 	email: {
 		type: String,
 		required: [true, 'Please enter an email'],
@@ -23,6 +27,9 @@ const userSchema = new mongoose.Schema({
 		required: false,
 	},
 })
+
+userSchema.index({ username: 1 }, { unique: true })
+userSchema.index({ email: 1, username: 1 }, { unique: true })
 
 // mongoose hooks
 userSchema.pre('save', async function (next) {
