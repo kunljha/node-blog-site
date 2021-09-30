@@ -8,9 +8,9 @@
 }
 
 :root {
-	--main-bg-color: #f4f1de;
+	--main-bg-color: #e6e6e6;
 	--link-color: #e07a57;
-	--blog-bg-color: #f2cc8f;
+	--blog-bg-color: #cccccc;
 	--accent-color: #81b29a;
 }
 
@@ -96,7 +96,6 @@ form {
 	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	border: 2px solid var(--accent-color);
-	background: #eecf9d;
 }
 input,
 textarea {

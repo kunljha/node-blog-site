@@ -1,4 +1,5 @@
 const Blog = require('../models/Blog')
+const { getCurrentUser } = require('../middleware/authMiddleware')
 
 const blog_index = (req, res) => {
 	Blog.find()
@@ -28,20 +29,24 @@ const blog_create_get = (req, res) => {
 }
 
 const blog_create_post = async (req, res) => {
-	// const blog = new Blog(req.body)
-
-	// blog
-	// 	.save()
-	// 	.then((result) => {
-	// 		res.redirect('/blogs')
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err)
-	// 	})
-	const { title, snippet, body } = req.body
 	try {
-		const blog = await Blog.create({ title, snippet, body })
-		res.redirect('/blogs')
+		const currentUser = await getCurrentUser(req, res)
+
+		if (currentUser === null) {
+			res.redirect('/login')
+		} else {
+			let blog = new Blog(req.body)
+			blog.userId = currentUser._id
+			blog.userName = currentUser.username
+			blog
+				.save()
+				.then((result) => {
+					res.redirect('/blogs')
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
 	} catch (err) {
 		console.log(err)
 	}

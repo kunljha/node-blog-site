@@ -55,17 +55,28 @@ const signup_get = (req, res) => {
 }
 
 const signup_post = async (req, res) => {
-	const { email, password } = req.body
+	const { username, email, password } = req.body
 
 	try {
-		const user = await User.create({ email, password, verify: false })
-		const token = createToken(user._id)
-		const info = await User.verifyEmail(token, email)
+		const userExist = User.findOne({ username })
 
-		if (info) {
-			res.status(201).json({ userId: user._id })
+		if (userExist) {
+			throw new Error('User already exists')
 		} else {
-			throw new Error('Email not sent')
+			const user = await User.create({
+				username,
+				email,
+				password,
+				verify: false,
+			})
+			const token = createToken(user._id)
+			const info = await User.verifyEmail(token, email)
+
+			if (info) {
+				res.status(201).json({ userId: user._id })
+			} else {
+				throw new Error('Email not sent')
+			}
 		}
 	} catch (err) {
 		console.log(err.message)
