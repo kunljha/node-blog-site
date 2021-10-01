@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const blogRoutes = require('./routes/blogRoutes')
 const authRoutes = require('./routes/authRoutes')
-const { requireAuth, checkUser } = require('./middleware/authMiddleware')
+const { checkUser } = require('./middleware/authMiddleware')
 
 // initialise express app
 const app = express()
@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 	res.redirect('/blogs')
 })
 
-app.get('/about', requireAuth, (req, res) => {
+app.get('/about', (req, res) => {
 	// res.sendFile('./views/about.html', { root: __dirname })
 	res.render('about', { title: 'About' })
 })

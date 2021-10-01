@@ -12,7 +12,7 @@ const handleErrors = (err) => {
 	// 	console.log(error.properties.path)
 	// })
 
-	let errors = { email: '', password: '' }
+	let errors = { username: '', email: '', password: '' }
 
 	// handling login errors
 	if (err.message === 'Incorrect email') {
@@ -23,9 +23,14 @@ const handleErrors = (err) => {
 		errors.password = 'Password is wrong'
 	}
 
+	// duplicate username
+	if (err.message === 'User already exists') {
+		errors.username = 'User already exists with this username'
+	}
+
 	// user email not verified
 	if (err.message === 'Email is not verified') {
-		errors.email = 'Please verify you email'
+		errors.email = 'Please verify your email'
 	}
 
 	// duplicate error code
@@ -79,7 +84,7 @@ const signup_post = async (req, res) => {
 			}
 		}
 	} catch (err) {
-		console.log(err.message)
+		console.log(err)
 		const errors = handleErrors(err)
 		res.status(400).json({ errors })
 	}

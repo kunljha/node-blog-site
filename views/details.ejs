@@ -8,9 +8,12 @@
 			<h2><%= blog.title %></h2>
 			<div>
 				<p><%= blog.body %></p>
+				<p><%= blog.username %></p>
+				<% if( blog.username === user.username ) { %>
 				<a class="delete" data-doc="<%= blog._id %>">
 					<img src="/trashcan.svg" alt="trashcan-icon"
 				/></a>
+				<% } %>
 			</div>
 		</div>
 

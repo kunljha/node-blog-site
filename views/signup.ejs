@@ -1,10 +1,10 @@
 <%- include('./partials/head'); -%> <%- include("./partials/nav.ejs") %>
 
 <form>
-	<h2>Sign up</h2>
+	<h2>Sign Up</h2>
 	<label for="username">Username</label>
 	<input type="text" name="username" placeholder="Enter username.." required />
-	<div class="name error"></div>
+	<div class="username error"></div>
 	<label for="email">Email</label>
 	<input type="text" name="email" placeholder="Enter email.." required />
 	<div class="email error"></div>
@@ -21,7 +21,7 @@
 
 <script>
 	const form = document.querySelector('form')
-	const usernameError = document.querySelector('.name.error')
+	const usernameError = document.querySelector('.username.error')
 	const emailError = document.querySelector('.email.error')
 	const passwordError = document.querySelector('.password.error')
 

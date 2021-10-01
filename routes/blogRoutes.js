@@ -12,12 +12,12 @@ const router = express.Router()
 
 router.get('/', blog_index)
 
-router.get('/create', requireAuth, blog_create_get)
+router.get('/create', blog_create_get)
 
-router.post('/', requireAuth, blog_create_post)
+router.post('/', blog_create_post)
 
-router.get('/:id', requireAuth, blog_details)
+router.get('/:id', blog_details)
 
-router.delete('/:id', requireAuth, blog_delete)
+router.delete('/:id', blog_delete)
 
 module.exports = router
